@@ -1,4 +1,4 @@
-`include "Modules/Data_memory.sv"
+`include "../Modules/Data_memory.sv"
 
 module memory_cycle(
     // Input 

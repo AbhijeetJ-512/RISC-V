@@ -1,17 +1,17 @@
-`include "Modules/Control_Unit_Top.sv"
-`include "Modules/Register_file.sv"
-`include "Modules/Sign_Extend.sv"
+`include "../Modules/Control_Unit_Top.sv"
+`include "../Modules/Register_file.sv"
+`include "../Modules/Sign_Extend.sv"
 
 module decode_cycle(
     input logic clk, rst, RegWriteW,
     input logic [4:0] RDW,
-    input logic [31:0] InstrD, PCD, PCPlusD, ResultW,
+    input logic [31:0] InstrD, PCD, PCPlus4D, ResultW,
 
     output logic RegWriteE, ALU_SrcE, MemWriteE, ResultSrcE, BranchE,
     output logic  [2:0]ALUControlE,
     output logic [31:0] RD1_E, RD2_E, Imm_Ext_E,
     output logic [4:0] RD_E,
-    output logic [31:0] PCE, PCPlusE
+    output logic [31:0] PCE, PCPlus4E
 );
 
 // Interim Wires
@@ -25,7 +25,7 @@ logic RegWriteD_r, ALU_SrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r;
 logic [2:0]ALUControlD_r, ImmSrcD_r;
 logic [31:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
 logic [4:0] RD_D_r;
-logic [31:0] PCD_r, PCPlusD_r;
+logic [31:0] PCD_r, PCPlus4D_r;
 
 // Control Unit
 Control_Unit_Top control(
@@ -75,7 +75,7 @@ always_ff @( posedge clk or negedge rst ) begin
         RD_D_r <= 32'h00000000;
         Imm_Ext_D_r <= 32'h00000000;
         PCD_r <= 32'h00000000;
-        PCPlusD_r <= 32'h00000000;
+        PCPlus4D_r <= 32'h00000000;
     end
     else begin
         RegWriteD_r <= RegWriteD;
@@ -89,7 +89,7 @@ always_ff @( posedge clk or negedge rst ) begin
         RD_D_r <= InstrD[11:7];
         Imm_Ext_D_r <= Imm_Ext_D;
         PCD_r <= PCD;
-        PCPlusD_r <= PCPlusD;
+        PCPlus4D_r <= PCPlus4D;
     end
 end
 
@@ -98,13 +98,12 @@ assign ALU_SrcE = ALU_SrcD_r;
 assign MemWriteE = MemWriteD_r;
 assign ResultSrcE = ResultSrcD_r;
 assign BranchE = BranchD_r;
-assign JumpE = JumpD_r;
 assign ALUControlE = ALUControlD_r;
 assign RD1_E = RD1_D_r;
 assign RD2_E = RD2_D_r;
 assign RD_E = RD_D_r;
 assign Imm_Ext_E = Imm_Ext_D_r;
 assign PCE = PCD_r;
-assign PCPlusE = PCPlusD_r;
+assign PCPlus4E = PCPlus4D_r;
 
 endmodule

@@ -1,4 +1,4 @@
-`include "Modules/Mux.sv"
+// `include "../Modules/Mux.sv"  // UnComment when using testbench only on this code
 
 module write_back_cycle(
     input logic clk, rst, ResultSrcW,

@@ -8,14 +8,14 @@ module Instruction_Memory(
   
   assign RD = (rst == 1'b0) ? {32{1'b0}} : mem[A[31:2]];
 
-  // initial begin
-  //   $readmemh("memfile.hex",mem);
-  // end
+  initial begin
+    $readmemh("memory.hex",mem);
+  end
 
-initial begin
-  mem[0] = 32'h0062E233;
-  mem[1] = 32'h00B62423;
-end
+// initial begin
+//   mem[0] = 32'h0062E233;
+//   mem[1] = 32'h00B62423;
+// end 
 
 
 endmodule

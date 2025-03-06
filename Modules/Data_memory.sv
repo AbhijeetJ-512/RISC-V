@@ -18,5 +18,4 @@ module Data_Memory(
         mem[0] = 32'h00000000;
     end
 
-
 endmodule

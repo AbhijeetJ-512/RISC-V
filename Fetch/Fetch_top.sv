@@ -1,7 +1,7 @@
-`include "Modules/PC.sv"
-`include "Modules/Instruction_Memory.sv"
-`include "Modules/Mux.sv"
-`include "Modules/PC_Adder.sv"
+`include "../Modules/PC.sv"
+`include "../Modules/Instruction_Memory.sv"
+`include "../Modules/Mux.sv"
+`include "../Modules/PC_Adder.sv"
 
 module fetch_cycle(
 
@@ -14,6 +14,7 @@ module fetch_cycle(
 
 //Interm wires
 logic [31:0]PCF, PC_F, PCPlus4F;
+logic [31:0] InstrF;
 
 //Registers
 
@@ -36,7 +37,8 @@ PC_Module Program_Counter(.clk(clk),
                           );
 
 //Instruction_Memory
-Instruction_Memory IMEM(.rst(rst),
+Instruction_Memory IMEM(
+                        .rst(rst),
                         .A(PCF),
                         .RD(InstrF)
                         );
