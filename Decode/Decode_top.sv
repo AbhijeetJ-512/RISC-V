@@ -10,6 +10,7 @@ module decode_cycle(
     output logic RegWriteE, ALU_SrcE, MemWriteE, ResultSrcE, BranchE,
     output logic  [2:0]ALUControlE,
     output logic [31:0] RD1_E, RD2_E, Imm_Ext_E,
+    output logic [4:0] RS1_E, RS2_E,
     output logic [4:0] RD_E,
     output logic [31:0] PCE, PCPlus4E
 );
@@ -24,6 +25,7 @@ logic [31:0] RD1_D, RD2_D, Imm_Ext_D;
 logic RegWriteD_r, ALU_SrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r;
 logic [2:0]ALUControlD_r, ImmSrcD_r;
 logic [31:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
+logic [4:0] RS1_D_r, RS2_D_r;
 logic [4:0] RD_D_r;
 logic [31:0] PCD_r, PCPlus4D_r;
 
@@ -76,12 +78,14 @@ always_ff @( posedge clk or negedge rst ) begin
         Imm_Ext_D_r <= 32'h00000000;
         PCD_r <= 32'h00000000;
         PCPlus4D_r <= 32'h00000000;
+        RS1_D_r <= 5'b00000;
+        RS2_D_r <= 5'b00000;
     end
     else begin
         RegWriteD_r <= RegWriteD;
         ALU_SrcD_r <= ALU_SrcD;
         MemWriteD_r <= MemWriteD;
-        ResultSrcD_r <=ResultSrcD;
+        ResultSrcD_r <= ResultSrcD;
         BranchD_r <= BranchD;
         ALUControlD_r <= ALUControlD;
         RD1_D_r <= RD1_D;
@@ -90,6 +94,8 @@ always_ff @( posedge clk or negedge rst ) begin
         Imm_Ext_D_r <= Imm_Ext_D;
         PCD_r <= PCD;
         PCPlus4D_r <= PCPlus4D;
+        RS1_D_r <= InstrD[19:15];
+        RS2_D_r <= InstrD[24:20];
     end
 end
 
@@ -105,5 +111,7 @@ assign RD_E = RD_D_r;
 assign Imm_Ext_E = Imm_Ext_D_r;
 assign PCE = PCD_r;
 assign PCPlus4E = PCPlus4D_r;
+assign RS1_E = RS1_D_r;
+assign RS2_E = RS2_D_r;
 
 endmodule
